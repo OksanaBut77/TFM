@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poster A1 - Estrategias de Imputación</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .poster {
+            width: 594mm;
+            height: 841mm;
+            max-width: 100%;
+            aspect-ratio: 0.707;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            padding: 40px;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 30px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            font-size: 2.5em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .author {
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            height: 100%;
+        }
+        
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #3498db;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .icon {
+            width: 24px;
+            height: 24px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .section p, .section li {
+            color: #34495e;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .section li {
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .section li:before {
+            content: "▶";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+            font-size: 0.8em;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #3498db;
+            margin: 15px 0;
+        }
+        
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .metrics-table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .metrics-table td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 0.9em;
+        }
+        
+        .metrics-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .best-score {
+            background: #2ecc71 !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .data-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #3498db;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .methodology-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .flow-step {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            position: relative;
+            font-size: 0.9em;
+        }
+        
+        .flow-step:not(:last-child):after {
+            content: "↓";
+            position: absolute;
+            right: 10px;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .conclusion-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .conclusion-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .poster {
+                box-shadow: none;
+                width: 594mm;
+                height: 841mm;
+                max-width: none;
+            }
+        }
+        
+        @media screen and (max-width: 1200px) {
+            .poster {
+                width: 95vw;
+                height: auto;
+                aspect-ratio: unset;
+            }
+            .content {
+                grid-template-columns: 1fr;
+            }
+            .title {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <div class="header">
+            <h1 class="title">Evaluación Comparativa de Estrategias de Imputación de Datos Faltantes y su Influencia en Modelos de Aprendizaje Automático en Marketing Farmacéutico</h1>
+            <p class="author">Oksana Klymenko</p>
+        </div>
+        
+        <div class="content">
+            <!-- COLUMNA 1 -->
+            <div class="column">
+                <div class="section">
+                    <h2><span class="icon">🎯</span>Objetivos</h2>
+                    <ul>
+                        <li>Implementar y comparar diversas técnicas de imputación de datos faltantes</li>
+                        <li>Cuantificar el impacto en el rendimiento de modelos predictivos</li>
+                        <li>Generar recomendaciones adaptadas al tipo de problema de marketing</li>
+                    </ul>
+                    
+                    <div class="highlight">
+                        <strong>Problema principal:</strong> Entender cómo las distintas técnicas de imputación afectan los modelos predictivos en marketing con altos niveles de datos incompletos.
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2><span class="icon">📊</span>Datos Analizados</h2>
+                    <div class="data-stats">
+                        <div class="stat-box">
+                            <span class="stat-number">10,000</span>
+                            <span class="stat-label">Perfiles de clientes</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number">123</span>
+                            <span class="stat-label">Variables</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number">37%</span>
+                            <span class="stat-label">Variables completas</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number">20%</span>
+                            <span class="stat-label">Variables valiosas</span>
+                        </div>
+                    </div>
+                    <p><strong>Periodo:</strong> 2016-2021</p>
+                    <p><strong>Fuentes:</strong> Sale Info.xlsx, Member Info.xlsx</p>
+                    <p><strong>Objetivo predictivo:</strong> Determinar migración de clientes entre segmentos</p>
+                </div>
+                
+                <div class="section">
+                    <h2><span class="icon">🔬</span>Metodología</h2>
+                    <div class="methodology-flow">
+                        <div class="flow-step">Preparación y filtrado de datos</div>
+                        <div class="flow-step">Imputación de datos faltantes</div>
+                        <div class="flow-step">Análisis de clústeres (K-Means, Mean Shift, etc.)</div>
+                        <div class="flow-step">Modelos ML (Logistic Regression, Random Forest)</div>
+                        <div class="flow-step">Evaluación y validación</div>
+                        <div class="flow-step">Análisis interpretabilidad (SHAP)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- COLUMNA 2 -->
+            <div class="column">
+                <div class="section">
+                    <h2><span class="icon">⚙️</span>Estrategias de Imputación</h2>
+                    <ul>
+                        <li><strong>Datos completos:</strong> Caso base de referencia</li>
+                        <li><strong>Datos completos enriquecidos:</strong> Con variables adicionales</li>
+                        <li><strong>Imputación con moda:</strong> Valor más frecuente</li>
+                        <li><strong>Imputación con KNN:</strong> K-Nearest Neighbors</li>
+                    </ul>
+                    
+                    <p><strong>Métricas evaluadas:</strong> Precisión, Recall, F1-score, Silhouette, Calinski-Harabasz, Davies-Bouldin</p>
+                </div>
+                
+                <div class="section">
+                    <h2><span class="icon">📈</span>Resultados Principales</h2>
+                    <table class="metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Estrategia</th>
+                                <th>LR Accuracy (%)</th>
+                                <th>RF Accuracy (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Datos completos</td>
+                                <td>82</td>
+                                <td>96</td>
+                            </tr>
+                            <tr>
+                                <td>Datos enriquecidos</td>
+                                <td>97</td>
+                                <td>98</td>
+                            </tr>
+                            <tr>
+                                <td>Imputación con moda</td>
+                                <td>97</td>
+                                <td class="best-score">99</td>
+                            </tr>
+                            <tr>
+                                <td>Imputación con KNN</td>
+                                <td>89</td>
+                                <td>93</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="highlight">
+                        <p><strong>Segmentación identificada:</strong> Tres grupos principales de clientes: inactivos, activos e intermedios</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2><span class="icon">🏆</span>Hallazgos Clave</h2>
+                    <ul>
+                        <li><strong>Random Forest</strong> superó consistentemente a Logistic Regression</li>
+                        <li><strong>KNN</strong> preserva mejor la dinámica del comportamiento de clientes</li>
+                        <li>Relación directa entre <strong>calidad de datos</strong> y rendimiento del modelo</li>
+                        <li>Análisis SHAP mostró diferencias en ranking de variables según método de imputación</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- COLUMNA 3 -->
+            <div class="column">
+                <div class="section">
+                    <h2><span class="icon">💡</span>Contribuciones</h2>
+                    <ul>
+                        <li>Marco sólido para selección de técnicas de imputación</li>
+                        <li>Cuantificación del impacto de la calidad de datos en rendimiento</li>
+                        <li>Validación de Random Forest como modelo óptimo para marketing farmacéutico</li>
+                        <li>Criterios para selección según contexto específico</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2><span class="icon">⚠️</span>Limitaciones</h2>
+                    <ul>
+                        <li>Variables limitadas a menos del 60% de faltantes</li>
+                        <li>No incluyó técnicas sofisticadas como MICE</li>
+                        <li>Enfoque en clasificación binaria únicamente</li>
+                        <li>Validación limitada a sector farmacéutico</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h2><span class="icon">🔮</span>Trabajo Futuro</h2>
+                    <ul>
+                        <li>Extender metodología con técnicas como MICE</li>
+                        <li>Explorar predicciones multiclase entre segmentos</li>
+                        <li>Desarrollar estrategias híbridas de imputación</li>
+                        <li>Validar hallazgos en otros sectores industriales</li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <div class="conclusion-box">
+                        <h3>Conclusión Principal</h3>
+                        <p>La selección adecuada de estrategias de imputación es clave para maximizar la utilidad de modelos predictivos en escenarios de datos incompletos, especialmente en marketing farmacéutico donde Random Forest con imputación por moda o KNN ofrece los mejores resultados.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
